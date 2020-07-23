@@ -78,5 +78,3 @@ class GetSWIFTBurst():
 
 if __name__ == '__main__':
     pass
-
-GetSWIFTBurst("GRB200612A","977310")
