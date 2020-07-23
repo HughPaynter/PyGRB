@@ -13,35 +13,30 @@ def mkdir(directory):
         pass
 
 
-class GetBATSEBurst():
+class GetSWIFTBurst():
     """
-    A class to download BATSE bursts.
+    A class to download SWIFT_BAT bursts.
 
     Parameters
     ----------
     trigger : integer
-        The BATSE trigger number.
-    datatype : string
-        The datatype desired. ('tte', or 'discsc')
+        The BAT trigger number.
 
     """
 
-    def __init__(self, trigger, datatype):
-        datatypes = {'tte': 'tte_bfits',
-                     'tte_list': 'tte_list',
-                     'discsc': 'discsc_bfits',
-                     }
-        try:
-            self._datatype = datatypes[datatype]
-        except:
-            raise AssertionError(
-                'Input variable `datatype` is {} when it '
-                'should be `discsc`, `tte`, or `tte_list`.'.format(datatype))
+    def __init__(self, trigger, id):
 
-        self._base_string = 'https://heasarc.gsfc.nasa.gov/FTP/compton/data/batse/trigger/'
+
+
+        self._base_string = 'https://swift.gsfc.nasa.gov/results/batgrbcat/'
         self._trigger = trigger
-        self._root = f'data/BATSE/{datatype}/'
-        self._file_name = f'{datatypes[datatype]}_{trigger}.fits.gz'
+        self._id = id
+        self._root = f'data/SWIFT/'
+        if len(self._id) == 6:
+            self._id = "00" + self._id + "000"
+        else:
+            self._id = self._id
+        self._file_name = f'{self._id}.lc.gz'
         self._url = self._make_url()
 
         mkdir(self._root)
@@ -50,7 +45,7 @@ class GetBATSEBurst():
     def _make_url(self):
         """
         Takes the trigger number and find the correct subfolder on the NASA
-        server. Triggers are separated into folders of 200.
+        server.
 
 
         Returns
@@ -59,15 +54,8 @@ class GetBATSEBurst():
             Returns the url to the desired trigger folder on the NASA server.
 
         """
-        zeroes = '0' * (5 - len(str(self._trigger)))
-        trigger_5 = f'{zeroes}{self._trigger}'
-        s = self._trigger - self._trigger % 200 + 1
-        t = '0' * (5 - len(str(s)))
-        start = f'{t}{s}'
-        e = s + 199
-        t = '0' * (5 - len(str(e)))
-        stop = f'{t}{e}'
-        return f'{self._base_string}{start}_{stop}/{trigger_5}_burst'
+
+        return f'{self._base_string}/{self._trigger}/data_product/{self._id}/bat/rate/sw{self._id}brtmc.lc.gz'
 
     def download_file(self):
         """
@@ -76,7 +64,7 @@ class GetBATSEBurst():
         """
         path = join(self._root, self._file_name)
         if not exists(path):
-            remote = f'{self._url}/{self._file_name}'
+            remote = f'{self._url}'
             try:
                 urllib.request.urlretrieve(remote, path)
             except:
@@ -91,4 +79,4 @@ class GetBATSEBurst():
 if __name__ == '__main__':
     pass
 
-GetBATSEBurst(218, "tte")
+GetSWIFTBurst('GRB200612A', '977310')
