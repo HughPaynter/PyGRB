@@ -55,7 +55,7 @@ class GetSWIFTBurst():
 
         """
 
-        return f'{self._base_string}/{self._trigger}/data_product/{self._id}/bat/rate/sw{self._id}brtmc.lc.gz'
+        return f'{self._base_string}/{self._trigger}/data_product/{self._id}/bat/rate/sw{self._id}brtms.lc.gz'
 
     def download_file(self):
         """
@@ -78,3 +78,4 @@ class GetSWIFTBurst():
 
 if __name__ == '__main__':
     pass
+
