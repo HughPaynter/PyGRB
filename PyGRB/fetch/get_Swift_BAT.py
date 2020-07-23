@@ -1,5 +1,5 @@
 import os
-import urllib
+import urllib.request
 import numpy as np
 
 from bs4 import BeautifulSoup
@@ -78,3 +78,5 @@ class GetSWIFTBurst():
 
 if __name__ == '__main__':
     pass
+
+GetSWIFTBurst("GRB200612A","977310")

@@ -1,5 +1,5 @@
 import os
-import urllib
+import urllib.request
 import numpy as np
 
 from bs4 import BeautifulSoup
@@ -90,3 +90,4 @@ class GetBATSEBurst():
 
 if __name__ == '__main__':
     pass
+
