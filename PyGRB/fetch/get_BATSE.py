@@ -90,5 +90,3 @@ class GetBATSEBurst():
 
 if __name__ == '__main__':
     pass
-
-GetBATSEBurst(218, "tte")
